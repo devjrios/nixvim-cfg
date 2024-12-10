@@ -8,7 +8,7 @@
     nixvim,
     flake-parts,
   } @ inputs: let
-    config = {
+    cfg = {
       imports = [
         ./misc
         ./plugins
@@ -29,12 +29,21 @@
         ...
       }: let
         nixvim' = nixvim.legacyPackages."${system}";
-        nvim = nixvim'.makeNixvim ({lib, ...} : config);
+        nvim = nixvim'.makeNixvim ({lib, ...} : cfg);
       in {
         packages = {
           inherit nvim;
           default = nvim;
         };
       };
-    };
+
+      flake.flakeModules = let
+        nixosModules = nixvim.nixosModules.nixvim;
+        homeManagerModules = nixvim.homeManagerModules.nixvim;
+        nixDarwinModules = nixvim.nixDarwinModules.nixvim;
+      in {
+        inherit nixosModules homeManagerModules nixDarwinModules;
+      };
+
+  };
 }
