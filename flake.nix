@@ -37,13 +37,5 @@
         };
       };
 
-      flake.flakeModules = let
-        nixosModules = nixvim.nixosModules.nixvim;
-        homeManagerModules = nixvim.homeManagerModules.nixvim;
-        nixDarwinModules = nixvim.nixDarwinModules.nixvim;
-      in {
-        inherit nixosModules homeManagerModules nixDarwinModules;
-      };
-
   };
 }
