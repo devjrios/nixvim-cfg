@@ -3,6 +3,9 @@
     ./styles.nix
     ./keymappings.nix
   ];
+
+  wrapRc = true;
+  impureRtp = false;
   
   enableMan = false;
   withRuby = false;
