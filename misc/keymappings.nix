@@ -34,7 +34,7 @@
     # move current line up/down
     # M = Alt key
     "<M-k>" = ":move-2<CR>";
-    "<M-j>" = ":move+<CR>"; "<leader>rp" = ":!remi push<CR>";
+    "<M-j>" = ":move+<CR>";
   };
   visual = lib.mapAttrsToList (key: action: { mode = "v"; inherit action key; }) {
     # better indenting
