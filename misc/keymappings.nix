@@ -38,6 +38,9 @@
 
     # Explorer
     "<leader>-" = ":Oil<CR>";
+
+    # mbbill/undotree
+    "<leader>#" = ":UndotreeToggle<CR><esc>";
   };
   visual = lib.mapAttrsToList (key: action: { mode = "v"; inherit action key; }) {
     # better indenting

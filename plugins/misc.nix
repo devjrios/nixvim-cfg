@@ -28,8 +28,20 @@
             watch_for_changes = false;
         };
     };
+    plugins.nvim-colorizer = {
+        enable = true;
+        userDefaultOptions.names = false;
+    };
+    plugins.gitsigns = {
+        enable = true;
+        settings.signs = {
+            add.text = "+";
+            change.text = "~";
+        };
+    };
     plugins.undotree.enable = true;
     plugins.cloak.enable = true;
     plugins.web-devicons.enable = true;
     plugins.telescope.enable = true;
+    plugins.nvim-autopairs.enable = true;
 }
