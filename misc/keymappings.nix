@@ -35,6 +35,9 @@
     # M = Alt key
     "<M-k>" = ":move-2<CR>";
     "<M-j>" = ":move+<CR>";
+
+    # Explorer
+    "<leader>-" = ":Oil<CR>";
   };
   visual = lib.mapAttrsToList (key: action: { mode = "v"; inherit action key; }) {
     # better indenting
