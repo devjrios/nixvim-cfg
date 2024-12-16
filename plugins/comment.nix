@@ -7,5 +7,5 @@
       toggler.line = "<C-b>";
     };
   };
-  plugins.ts-comments.enable = true;
+  # plugins.ts-comments.enable = true;
 }

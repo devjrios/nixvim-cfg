@@ -2,6 +2,8 @@
   imports = [
     ./styles.nix
     ./keymappings.nix
+    ./autocommands.nix
+    ./completion.nix
   ];
 
   wrapRc = true;
@@ -15,7 +17,13 @@
 
   performance = {
     byteCompileLua.enable = true;
-    combinePlugins.enable = true;
+    combinePlugins = {
+      enable = true;
+      standalonePlugins = [
+        "hmts.nvim"
+        "nvim-treesitter"
+      ];
+    };
   };
 
   luaLoader.enable = true;
