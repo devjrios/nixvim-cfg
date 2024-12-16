@@ -1,6 +1,11 @@
 {
   imports = [
+    ./barbar.nix
+    ./comment.nix
     ./clang.nix
+    ./markdown-preview.nix
+    ./telescope.nix
+    ./treesitter.nix
     ./misc.nix
   ];
   plugins.lsp = {

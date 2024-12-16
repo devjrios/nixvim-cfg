@@ -42,6 +42,5 @@
     plugins.undotree.enable = true;
     plugins.cloak.enable = true;
     plugins.web-devicons.enable = true;
-    plugins.telescope.enable = true;
     plugins.nvim-autopairs.enable = true;
 }
