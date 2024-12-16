@@ -28,10 +28,6 @@
             watch_for_changes = false;
         };
     };
-    plugins.nvim-colorizer = {
-        enable = true;
-        userDefaultOptions.names = false;
-    };
     plugins.gitsigns = {
         enable = true;
         settings.signs = {

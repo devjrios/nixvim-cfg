@@ -2,10 +2,10 @@
   imports = [
     ./barbar.nix
     ./comment.nix
-    ./clang.nix
     ./markdown-preview.nix
     ./telescope.nix
     ./treesitter.nix
+    ./clang.nix
     ./misc.nix
   ];
   plugins.lsp = {

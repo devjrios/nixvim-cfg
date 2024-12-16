@@ -45,4 +45,8 @@
       italic_comment = true;
     };
   };
+  plugins.nvim-colorizer = {
+    enable = true;
+    userDefaultOptions.names = false;
+  };
 }
