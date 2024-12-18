@@ -2,7 +2,6 @@
   imports = [
     ./styles.nix
     ./keymappings.nix
-    ./autocommands.nix
     ./completion.nix
   ];
 
