@@ -12,7 +12,7 @@
 
     # back and fourth between the two most recent files
     "<C-c>" = ":b#<CR>";
-    
+
     # close by Ctrl+x
     "<C-x>" = ":close<CR>";
 
@@ -41,6 +41,9 @@
 
     # mbbill/undotree
     "<leader>#" = ":UndotreeToggle<CR><esc>";
+
+    # lazygit.nvim plugin
+    "<leader>gg" = ":LazyGit<CR>";
   };
   visual = lib.mapAttrsToList (key: action: { mode = "v"; inherit action key; }) {
     # better indenting

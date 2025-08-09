@@ -28,6 +28,7 @@
             watch_for_changes = false;
         };
     };
+    plugins.lazygit.enable = true;
     plugins.gitsigns = {
         enable = true;
         settings.signs = {
