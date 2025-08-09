@@ -1,7 +1,10 @@
 {
   description = "Personal nixvim config";
 
-  inputs.nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    inputs = {
+        flake-parts.url = "github:hercules-ci/flake-parts";
+        nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    };
 
   outputs = {
     self,
