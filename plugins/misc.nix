@@ -1,4 +1,10 @@
-{
+{lib, ...}: let
+  lazyGitConfigFile = builtins.toFile "lazygit_config.yml" ''
+    os:
+      editCommand: 'nvim'
+      editCommandTemplate: '{{editor}} --server "$NVIM_LISTEN_ADDRESS" --remote-send "q"; {{editor}} --server "$NVIM_LISTEN_ADDRESS" --remote-tab {{filename}}'
+  '';
+in {
   plugins.oil = {
     enable = true;
     settings = {
@@ -28,7 +34,15 @@
       watch_for_changes = false;
     };
   };
-  plugins.lazygit.enable = true;
+  plugins.lazygit = {
+    enable = true;
+    settings = {
+      floating_window_use_plenary = 0;
+      use_neovim_remote = 0;
+      use_custom_config_file_path = 1;
+      config_file_path = lazyGitConfigFile;
+    };
+  };
   plugins.gitsigns = {
     enable = true;
     settings.signs = {

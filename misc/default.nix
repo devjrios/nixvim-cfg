@@ -5,6 +5,10 @@
     ./completion.nix
   ];
 
+  extraConfigLuaPost = ''
+    vim.env.NVIM_LISTEN_ADDRESS = vim.v.servername
+  '';
+
   wrapRc = true;
   impureRtp = false;
 
