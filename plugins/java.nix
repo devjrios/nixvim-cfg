@@ -2,16 +2,18 @@
   pkgs,
   lib,
   ...
-}: {
-  plugins.nvim-jdtls = rec {
+}: let
+  project_root_callback = ''
+    vim.fs.dirname(vim.fs.find(
+      { ".gradlew", ".gitignore", ".gitattributes", ".git", "mvnw", "build.grade.kts" },
+      { upward = true }
+    )[1])
+  '';
+in {
+  plugins.nvim-jdtls = {
     enable = true;
-    rootDir.__raw = ''
-      vim.fs.dirname(vim.fs.find(
-        { ".gradlew", ".gitignore", ".gitattributes", ".git", "mvnw", "build.grade.kts" },
-        { upward = true }
-      )[1])
-    '';
-    data.__raw = rootDir.__raw;
+    rootDir.__raw = project_root_callback;
+    data.__raw = project_root_callback;
     jdtLanguageServerPackage = pkgs.jdt-language-server;
     settings = {
       java = {
