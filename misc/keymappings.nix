@@ -21,9 +21,7 @@
         # close by Ctrl+x
         "<C-x>" = ":close<CR>";
 
-        # save by Space+s or Ctrl+s
-        "<leader>s" = ":w<CR>";
-        "<C-s>" = ":w<CR>";
+        "<leader>fs" = ":w<CR>";
 
         # navigate to left/right window
         "<leader>h" = "<C-w>h";
