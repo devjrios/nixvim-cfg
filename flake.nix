@@ -4,12 +4,14 @@
     inputs = {
         flake-parts.url = "github:hercules-ci/flake-parts";
         nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+        nixpkgs.follows = "nixvim/nixpkgs";
     };
 
   outputs = {
     self,
     nixvim,
     flake-parts,
+    nixpkgs,
   } @ inputs: let
     cfg = {
       imports = [
@@ -29,11 +31,13 @@
       perSystem = {
         lib,
         system,
+        pkgs,
         ...
       }: let
         nixvim' = nixvim.legacyPackages."${system}";
         nvim = nixvim'.makeNixvim ({lib, ...} : cfg);
       in {
+        formatter = pkgs.alejandra;
         packages = {
           inherit nvim;
           default = nvim;

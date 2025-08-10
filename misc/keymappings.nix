@@ -44,6 +44,8 @@
 
     # lazygit.nvim plugin
     "<leader>gg" = ":LazyGit<CR>";
+
+    "<leader>sv" = ":vnew<CR>";
   };
   visual = lib.mapAttrsToList (key: action: { mode = "v"; inherit action key; }) {
     # better indenting

@@ -296,6 +296,10 @@
     "root": {
       "inputs": {
         "flake-parts": "flake-parts",
+        "nixpkgs": [
+          "nixvim",
+          "nixpkgs"
+        ],
         "nixvim": "nixvim"
       }
     },
