@@ -29,7 +29,7 @@
       pattern = ["gitcommit" "gitrebase" "gitconfig"];
       callback.__raw = ''
         function()
-          set bufhidden=delete
+          vim.bo.bufhidden = 'delete'
         end
       '';
     }
