@@ -6,6 +6,7 @@
     ./telescope.nix
     ./treesitter.nix
     ./clang.nix
+    ./java.nix
     ./misc.nix
   ];
   plugins.lsp = {
