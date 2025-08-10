@@ -10,7 +10,7 @@
     };
     folding = true;
   };
-  
+
   plugins.treesitter-refactor = {
     enable = true;
     highlightDefinitions = {

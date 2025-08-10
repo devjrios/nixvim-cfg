@@ -7,7 +7,7 @@
 
   wrapRc = true;
   impureRtp = false;
-  
+
   enableMan = false;
   withRuby = false;
   withPython3 = false;
@@ -63,7 +63,7 @@
     inccommand = "split"; # Search and replace: preview changes in quickfix list
     ignorecase = true; # case insensitive queries
     smartcase = true; # Override the 'ignorecase' option if the search pattern contains upper case characters
-    
+
     undofile = true; # Automatically save and restore undo history
     swapfile = false; # Disable the swap file
 
