@@ -16,15 +16,6 @@
       '';
     }
     {
-      event = "BufEnter";
-      pattern = ["*"];
-      callback.__raw = ''
-        function()
-          require('lazygit.utils').project_root_dir()
-        end
-      '';
-    }
-    {
       event = "FileType";
       pattern = ["gitcommit" "gitrebase" "gitconfig"];
       callback.__raw = ''

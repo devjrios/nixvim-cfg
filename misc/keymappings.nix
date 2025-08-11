@@ -48,8 +48,7 @@
         # mbbill/undotree
         "<leader>#" = ":UndotreeToggle<CR><esc>";
 
-        # lazygit.nvim plugin
-        "<leader>gg" = ":LazyGit<CR>";
+        "<leader>gg" = ":Neogit<CR>";
 
         "<leader>sv" = ":vnew<CR>";
       };
