@@ -22,7 +22,7 @@
         pkgs,
         ...
       }: let
-        nixvimLib = inputs.nixvim.lib.${system};
+        nixvimLib = inputs.nixvim.lib."${system}";
         nixvim' = inputs.nixvim.legacyPackages."${system}";
         nixvimModule = {
           inherit system;

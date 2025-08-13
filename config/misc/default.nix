@@ -5,65 +5,11 @@
     ./completion.nix
   ];
 
-  autoCmd = [
-    {
-      event = "FileType";
-      pattern = ["java"];
-      callback.__raw = ''
-        function()
-          vim.b.autoformat = false
-        end
-      '';
-    }
-    {
-      event = "FileType";
-      pattern = ["gitcommit" "gitrebase" "gitconfig"];
-      callback.__raw = ''
-        function()
-          vim.bo.bufhidden = 'delete'
-        end
-      '';
-    }
-  ];
-
-  extraConfigLuaPost = ''
-    vim.env.NVIM_LISTEN_ADDRESS = vim.v.servername
-  '';
-
-  wrapRc = true;
-  impureRtp = false;
-
-  enableMan = false;
-  withRuby = false;
-  withPython3 = false;
-  withNodeJs = false;
-  withPerl = false;
-
-  performance = {
-    byteCompileLua.enable = true;
-    combinePlugins = {
-      enable = true;
-      standalonePlugins = [
-        "hmts.nvim"
-        "nvim-treesitter"
-      ];
-    };
-  };
-
-  luaLoader.enable = true;
-
-  globals = {
-    # Disable useless providers
-    loaded_ruby_provider = 0;
-    loaded_perl_provider = 0;
-    loaded_python_provider = 0;
-    loaded_python3_provider = 0;
-    loaded_node_provider = 0;
-  };
   clipboard = {
     register = "unnamedplus";
     providers.xclip.enable = true;
   };
+
   opts = {
     # Tabs options
     autoindent = true;
