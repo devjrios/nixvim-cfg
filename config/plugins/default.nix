@@ -6,7 +6,7 @@
     ./telescope.nix
     ./treesitter.nix
     # ./clang.nix
-    # ./java.nix
+    ./java.nix
     ./misc.nix
   ];
   plugins.lsp = {
@@ -33,4 +33,7 @@
     enable = true;
     lspServersToEnable = "all";
   };
+  plugins.dap.enable = true;
+  # Still testing the dap-backend, will enable this later
+  # plugins.dap-ui.enable = true;
 }
