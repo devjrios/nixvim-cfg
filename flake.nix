@@ -2,31 +2,19 @@
   description = "Personal nixvim config";
 
   inputs = {
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    nixvim.url = "github:nix-community/nixvim/nixos-24.11";
+    nixvim.url = "github:nix-community/nixvim/nixos-25.05";
+    flake-parts.follows = "nixvim/flake-parts";
     nixpkgs.follows = "nixvim/nixpkgs";
+    systems.follows = "nixvim/systems";
   };
 
-  outputs = {
-    self,
-    nixvim,
-    flake-parts,
-    nixpkgs,
-  } @ inputs: let
-    cfg = {
-      imports = [
-        ./misc
-        ./plugins
-      ];
-    };
-  in
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      systems = [
-        "aarch64-darwin"
-        "aarch64-linux"
-        "x86_64-darwin"
-        "x86_64-linux"
-      ];
+  nixConfig = {
+    allow-import-from-derivation = false;
+  };
+
+  outputs = inputs:
+    inputs.flake-parts.lib.mkFlake {inherit inputs;} {
+      systems = import inputs.systems;
 
       perSystem = {
         lib,
@@ -34,12 +22,21 @@
         pkgs,
         ...
       }: let
-        nixvim' = nixvim.legacyPackages."${system}";
-        nvim = nixvim'.makeNixvim ({lib, ...}: cfg);
+        nixvimLib = inputs.nixvim.lib.${system};
+        nixvim' = inputs.nixvim.legacyPackages."${system}";
+        nixvimModule = {
+          inherit system;
+          module = import ./config;
+        };
+        nvim = nixvim'.makeNixvimWithModule nixvimModule;
       in {
         formatter = pkgs.alejandra;
+        checks = {
+          # nix flake check .
+          default = nixvimLib.check.mkTestDerivationFromNixvimModule nixvimModule;
+        };
         packages = {
-          inherit nvim;
+          # nix run .
           default = nvim;
         };
       };
