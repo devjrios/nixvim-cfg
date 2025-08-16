@@ -47,7 +47,7 @@ in {
         "-Dosgi.checkConfiguration=true"
         {
           __raw = ''
-            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_linux/*")
+            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_*")
           '';
         }
         "-Dosgi.sharedConfiguration.area.readOnly=true"
