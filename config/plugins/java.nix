@@ -1,8 +1,6 @@
 {
   pkgs,
   lib,
-  vscode-extensions,
-  jdtls-pkg,
   ...
 }: let
   project_root = ''
@@ -15,8 +13,8 @@
     vim.tbl_filter(
       function(x) return not vim.endswith(x, "com.microsoft.java.test.runner-jar-with-dependencies.jar") and not vim.endswith(x, "jacocoagent.jar") end,
       vim.tbl_extend("keep",
-        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.open-vsx.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1), "\n"),
-        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.open-vsx.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
+        vim.split(vim.fn.glob("${lib.getLib pkgs.vscode-extensions.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1), "\n"),
+        vim.split(vim.fn.glob("${lib.getLib pkgs.vscode-extensions.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
       )
     )
   '';
@@ -48,7 +46,7 @@ in {
         "-Dosgi.checkConfiguration=true"
         {
           __raw = ''
-            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib jdtls-pkg}/share/java/jdtls/config_*")
+            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_*")
           '';
         }
         "-Dosgi.sharedConfiguration.area.readOnly=true"
@@ -72,7 +70,7 @@ in {
         "-jar"
         {
           __raw = ''
-            vim.fn.glob("${lib.getLib jdtls-pkg}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+            vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
           '';
         }
         "-data"
