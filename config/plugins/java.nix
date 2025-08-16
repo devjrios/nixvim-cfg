@@ -12,13 +12,15 @@
   '';
   bundles_callback = ''
     vim.tbl_filter(
-      function(x) return not vim.endswith(x, "com.microsoft.java.test.runner-jar-with-dependencies.jar") and not vim.endswith(x, "com.microsoft.java.test.runner.jar") and not vim.endswith(x, "jacocoagent.jar") and not vim.regex([[org\.jacoco\.core.*\.jar$]]):match_str(x) end,
+      function(x) return not vim.endswith(x, "com.microsoft.java.test.runner-jar-with-dependencies.jar") and not vim.endswith(x, "jacocoagent.jar") end,
       vim.tbl_extend("keep",
-        {vim.fn.glob("${lib.getLib vscode-extensions.vscode-marketplace.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1)},
-        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.vscode-marketplace.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
-        -- ,require("spring_boot").java_extensions()
+        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.open-vsx.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1), "\n"),
+        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.open-vsx.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
       )
     )
+  '';
+  jdtls_jar_callback = ''
+    vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
   '';
 in {
   plugins.jdtls = {
@@ -28,7 +30,40 @@ in {
         bundles.__raw = bundles_callback;
       };
       cmd = [
-        "jdtls"
+        "${lib.getLib pkgs.jdk21_headless}/lib/openjdk/bin/java"
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1"
+        "-Dosgi.bundles.defaultStartLevel=4"
+        "-Declipse.product=org.eclipse.jdt.ls.core.product"
+        "-Dlog.protocol=true"
+        "-Dlog.level=ALL"
+        "-XX:+UseTransparentHugePages"
+        "-XX:+AlwaysPreTouch"
+        "-Xmx2g"
+        "--add-modules=ALL-SYSTEM"
+        "--add-opens"
+        "java.base/java.util=ALL-UNNAMED"
+        "--add-opens"
+        "java.base/java.lang=ALL-UNNAMED"
+        "-jar"
+        {
+          __raw = jdtls_jar_callback;
+        }
+        "-configuration"
+        {
+          __raw = ''
+            (function()
+              local tmp = os.tmpname()
+              os.remove(tmp)
+              vim.fn.mkdir(tmp, 'p')
+              for _, file in ipairs(vim.fn.glob('${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_linux/*', false, true)) do
+                local basename = vim.fn.fnamemodify(file, ':t')
+                local content = vim.fn.readfile(file)
+                vim.fn.writefile(content, tmp .. '/' .. basename)
+              end
+              return tmp
+            end)()
+          '';
+        }
         "-data"
         {
           __raw = project_root_callback;
@@ -45,14 +80,11 @@ in {
               offline = {enabled = false;};
             };
             exclusions = [
-              # "**/node_modules/**"
+              "**/node_modules/**"
               "**/.metadata/**"
-              # "**/.git/**"
               "**/.idea/**"
               "**/archetype-resources/**"
-              # "**/resources/**"
-              # "**/META-INF/maven/**"
-              # "/**/test/**"
+              "**/META-INF/maven/**"
               "/**/assets/**"
             ];
           };
@@ -111,12 +143,12 @@ in {
             runtimes = [
               {
                 name = "JavaSE-1.8";
-                path = "${lib.getLib pkgs.jdk8_headless}/lib/openjdk/jre/";
+                path = "${lib.getLib pkgs.jdk8_headless}/lib/openjdk/jre";
                 default = true;
               }
               {
                 name = "JavaSE-21";
-                path = "${lib.getLib pkgs.jdk21_headless}/lib/openjdk/";
+                path = "${lib.getLib pkgs.jdk21_headless}/lib/openjdk";
               }
             ];
           };
