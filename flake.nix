@@ -4,6 +4,7 @@
   inputs = {
     nixvim.url = "github:nix-community/nixvim/nixos-25.05";
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nixpkgs-with-working-jdtls.url = "github:NixOS/nixpkgs/62659a8ca7bba5d151365ff641b74439181725c0";
     flake-parts.follows = "nixvim/flake-parts";
     nixpkgs.follows = "nixvim/nixpkgs";
     systems.follows = "nixvim/systems";
@@ -30,6 +31,7 @@
           module = import ./config;
           extraSpecialArgs = {
             vscode-extensions = inputs.nix-vscode-extensions.extensions."${system}";
+            jdtls-pkg = inputs.nixpkgs-with-working-jdtls.legacyPackages."${system}".jdt-language-server;
           };
         };
         nvim = nixvim'.makeNixvimWithModule nixvimModule;

@@ -2,6 +2,7 @@
   pkgs,
   lib,
   vscode-extensions,
+  jdtls-pkg,
   ...
 }: let
   project_root = ''
@@ -47,7 +48,7 @@ in {
         "-Dosgi.checkConfiguration=true"
         {
           __raw = ''
-            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_*")
+            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib jdtls-pkg}/share/java/jdtls/config_*")
           '';
         }
         "-Dosgi.sharedConfiguration.area.readOnly=true"
@@ -71,7 +72,7 @@ in {
         "-jar"
         {
           __raw = ''
-            vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+            vim.fn.glob("${lib.getLib jdtls-pkg}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
           '';
         }
         "-data"

@@ -91,11 +91,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1755223768,
-        "narHash": "sha256-IvGJwwEELdsc3toUO3PSQxveQDBw0xCAcXtYFYS2ky8=",
+        "lastModified": 1755309796,
+        "narHash": "sha256-0mvqD8Cul8Bq+NqeeNy5cbi59R5w8EzaaimJBFpKJ4A=",
         "owner": "nix-community",
         "repo": "nix-vscode-extensions",
-        "rev": "545c9c87e71fbb19682abfd8d8168584ffd07d3f",
+        "rev": "73db918d57f44c8a0d8a809596863188675f9cab",
         "type": "github"
       },
       "original": {
@@ -117,6 +117,22 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "ebe4301cbd8f81c4f8d3244b3632338bbeb6d49c",
+        "type": "github"
+      }
+    },
+    "nixpkgs-with-working-jdtls": {
+      "locked": {
+        "lastModified": 1734735731,
+        "narHash": "sha256-SZxnUybh1YGltnF880OPXNZ14MkM64Aw8Ip/ikMOVdM=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "62659a8ca7bba5d151365ff641b74439181725c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "62659a8ca7bba5d151365ff641b74439181725c0",
         "type": "github"
       }
     },
@@ -192,6 +208,7 @@
           "nixvim",
           "nixpkgs"
         ],
+        "nixpkgs-with-working-jdtls": "nixpkgs-with-working-jdtls",
         "nixvim": "nixvim",
         "systems": [
           "nixvim",
