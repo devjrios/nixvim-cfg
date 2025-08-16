@@ -19,9 +19,6 @@
       )
     )
   '';
-  jdtls_jar = ''
-    vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
-  '';
 in {
   plugins.jdtls = {
     enable = true;
@@ -50,7 +47,9 @@ in {
         "-XX:+UseParallelGC"
         "-XX:GCTimeRatio=4"
         "-XX:AdaptiveSizePolicyWeight=90"
-        "-Xmx2g"
+        "-Xmx2G"
+        "-Xms256m"
+        "-Xlog:disable"
         "--add-modules=ALL-SYSTEM"
         "--add-opens"
         "java.base/java.util=ALL-UNNAMED"
@@ -58,7 +57,9 @@ in {
         "java.base/java.lang=ALL-UNNAMED"
         "-jar"
         {
-          __raw = jdtls_jar;
+          __raw = ''
+            vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
+          '';
         }
         "-data"
         {
@@ -109,7 +110,7 @@ in {
             ls = {
               androidSupport = {enabled = false;};
               protofBufSupport = {enabled = false;};
-              lombokSupport = {enabled = true;};
+              lombokSupport = {enabled = false;};
             };
           };
           eclipse = {
