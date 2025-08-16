@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  vscode-extensions,
   ...
 }: let
   project_root_callback = ''
@@ -9,13 +10,12 @@
       { upward = true }
     )[1])
   '';
-  # and not vim.endswith(x, "junit-platform-suite-commons_1.9.3.jar") and not vim.endswith(x, "junit-platform-suite-engine_1.9.3.jar") and not vim.endswith(x, "jacocoagent.jar") and not vim.endswith(x, "org.jacoco.core_0.8.11.202310140853.jar") and not vim.endswith(x, "junit-platform-runner_1.9.3.jar") end,
   bundles_callback = ''
     vim.tbl_filter(
       function(x) return not vim.endswith(x, "com.microsoft.java.test.runner-jar-with-dependencies.jar") and not vim.endswith(x, "com.microsoft.java.test.runner.jar") and not vim.endswith(x, "jacocoagent.jar") and not vim.regex([[org\.jacoco\.core.*\.jar$]]):match_str(x) end,
       vim.tbl_extend("keep",
-        {vim.fn.glob("${lib.getLib pkgs.vscode-extensions.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1)},
-        vim.split(vim.fn.glob("${lib.getLib pkgs.vscode-extensions.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
+        {vim.fn.glob("${lib.getLib vscode-extensions.vscode-marketplace.vscjava.vscode-java-debug}/share/vscode/extensions/vscjava.vscode-java-debug/server/com.microsoft.java.debug.plugin-*.jar", 1)},
+        vim.split(vim.fn.glob("${lib.getLib vscode-extensions.vscode-marketplace.vscjava.vscode-java-test}/share/vscode/extensions/vscjava.vscode-java-test/server/*.jar", 1), "\n")
         -- ,require("spring_boot").java_extensions()
       )
     )

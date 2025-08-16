@@ -3,6 +3,7 @@
 
   inputs = {
     nixvim.url = "github:nix-community/nixvim/nixos-25.05";
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
     flake-parts.follows = "nixvim/flake-parts";
     nixpkgs.follows = "nixvim/nixpkgs";
     systems.follows = "nixvim/systems";
@@ -27,6 +28,9 @@
         nixvimModule = {
           inherit system;
           module = import ./config;
+          extraSpecialArgs = {
+            vscode-extensions = inputs.nix-vscode-extensions.extensions."${system}";
+          };
         };
         nvim = nixvim'.makeNixvimWithModule nixvimModule;
       in {
