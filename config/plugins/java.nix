@@ -76,7 +76,9 @@ in {
         }
         "-data"
         {
-          __raw = project_root;
+          __raw = ''
+            os.getenv("HOME") .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(${project_root}, ":p:h:t")
+          '';
         }
       ];
       root_dir.__raw = project_root;
