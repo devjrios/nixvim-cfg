@@ -4,13 +4,13 @@
   vscode-extensions,
   ...
 }: let
-  project_root_callback = ''
+  project_root = ''
     vim.fs.dirname(vim.fs.find(
       { ".gradlew", ".gitignore", ".gitattributes", ".git", "mvnw", "build.grade.kts" },
       { upward = true }
     )[1])
   '';
-  bundles_callback = ''
+  bundles_list = ''
     vim.tbl_filter(
       function(x) return not vim.endswith(x, "com.microsoft.java.test.runner-jar-with-dependencies.jar") and not vim.endswith(x, "jacocoagent.jar") end,
       vim.tbl_extend("keep",
@@ -19,7 +19,7 @@
       )
     )
   '';
-  jdtls_jar_callback = ''
+  jdtls_jar = ''
     vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/plugins/org.eclipse.equinox.launcher_*.jar")
   '';
 in {
@@ -27,17 +27,29 @@ in {
     enable = true;
     settings = {
       init_options = {
-        bundles.__raw = bundles_callback;
+        bundles.__raw = bundles_list;
       };
       cmd = [
-        "${lib.getLib pkgs.jdk21_headless}/lib/openjdk/bin/java"
+        "${lib.getExe pkgs.temurin-bin}"
         "-Declipse.application=org.eclipse.jdt.ls.core.id1"
         "-Dosgi.bundles.defaultStartLevel=4"
         "-Declipse.product=org.eclipse.jdt.ls.core.product"
+        "-Dosgi.checkConfiguration=true"
+        {
+          __raw = ''
+            "-Dosgi.sharedConfiguration.area=" .. vim.fn.glob("${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_linux/*")
+          '';
+        }
+        "-Dosgi.sharedConfiguration.area.readOnly=true"
+        "-Dosgi.configuration.cascaded=true"
         "-Dlog.protocol=true"
         "-Dlog.level=ALL"
+        "-Dsun.zip.disableMemoryMapping=true"
         "-XX:+UseTransparentHugePages"
         "-XX:+AlwaysPreTouch"
+        "-XX:+UseParallelGC"
+        "-XX:GCTimeRatio=4"
+        "-XX:AdaptiveSizePolicyWeight=90"
         "-Xmx2g"
         "--add-modules=ALL-SYSTEM"
         "--add-opens"
@@ -46,33 +58,16 @@ in {
         "java.base/java.lang=ALL-UNNAMED"
         "-jar"
         {
-          __raw = jdtls_jar_callback;
-        }
-        "-configuration"
-        {
-          __raw = ''
-            (function()
-              local tmp = os.tmpname()
-              os.remove(tmp)
-              vim.fn.mkdir(tmp, 'p')
-              for _, file in ipairs(vim.fn.glob('${lib.getLib pkgs.jdt-language-server}/share/java/jdtls/config_linux/*', false, true)) do
-                local basename = vim.fn.fnamemodify(file, ':t')
-                local content = vim.fn.readfile(file)
-                vim.fn.writefile(content, tmp .. '/' .. basename)
-              end
-              return tmp
-            end)()
-          '';
+          __raw = jdtls_jar;
         }
         "-data"
         {
-          __raw = project_root_callback;
+          __raw = project_root;
         }
       ];
-      root_dir.__raw = project_root_callback;
+      root_dir.__raw = project_root;
       settings = {
         java = {
-          home = "${lib.getLib pkgs.jdk21_headless}/lib/openjdk";
           import = {
             gradle = {enabled = false;};
             maven = {
@@ -112,7 +107,6 @@ in {
           };
           jdt = {
             ls = {
-              # vmArgs = "--add-opens=java.base/java.io=ALL-UNNAMED -XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -Xlog:disable";
               androidSupport = {enabled = false;};
               protofBufSupport = {enabled = false;};
               lombokSupport = {enabled = true;};
@@ -143,12 +137,12 @@ in {
             runtimes = [
               {
                 name = "JavaSE-1.8";
-                path = "${lib.getLib pkgs.jdk8_headless}/lib/openjdk/jre";
+                path = "${lib.getLib pkgs.openjdk8-bootstrap}";
                 default = true;
               }
               {
                 name = "JavaSE-21";
-                path = "${lib.getLib pkgs.jdk21_headless}/lib/openjdk";
+                path = "${lib.getLib pkgs.temurin-bin}";
               }
             ];
           };
