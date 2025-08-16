@@ -24,6 +24,19 @@ in {
     enable = true;
     settings = {
       init_options = {
+        extendedClientCapabilities.__raw = ''
+          (function()
+            local jdtls = require("jdtls");
+            local extendedClientCapabilities = jdtls.extendedClientCapabilities;
+            extendedClientCapabilities.onCompletionItemSelectedCommand = "editor.action.triggerParameterHints";
+            extendedClientCapabilities.resolveAdditionalTextEditsSupport = true;
+            extendedClientCapabilities.executeClientCommandSupport = true;
+            extendedClientCapabilities.classFileContentsSupport = true;
+            -- extendedClientCapabilities.canUseInternalSettings = true;
+            -- extendedClientCapabilities.skipProjectConfiguration = true;
+            return extendedClientCapabilities;
+          end)()
+        '';
         bundles.__raw = bundles_list;
       };
       cmd = [
@@ -69,6 +82,7 @@ in {
       root_dir.__raw = project_root;
       settings = {
         java = {
+          executeCommand = {enabled = true;};
           import = {
             gradle = {enabled = false;};
             maven = {
@@ -94,6 +108,8 @@ in {
           autobuild = {
             enabled = false;
           };
+          maxConcurrentBuilds = 1;
+          signatureHelp = {enabled = true;};
           format = {
             enabled = false;
             onType = {enabled = false;};
@@ -131,10 +147,10 @@ in {
             guessMethodArguments = false;
             maxResults = 5;
             matchCase = "OFF";
-            postfix = {enabled = true;};
+            postfix = {enabled = false;};
           };
           configuration = {
-            updateBuildConfiguration = "interactive";
+            updateBuildConfiguration = "automatic";
             runtimes = [
               {
                 name = "JavaSE-1.8";
